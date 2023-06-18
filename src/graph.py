@@ -59,7 +59,7 @@ class Graph:
 
     def add_edge(self, v1: str, v2: str, weight: int = 1) -> None:
         """
-        Adds an edge between two vertexes with a weight
+        Adds an edge from vertex 1 to vertex 2 with a weight
 
         Parameters
         ----------
@@ -77,11 +77,15 @@ class Graph:
         """
         if(self.adjacency_list.get(v1).get(v2) != None):
             raise(EdgeAlreadyExistsException)
+        if(v1 not in self.adjacency_list):
+            self.add_vertex(v1)
+        if(v2 not in self.adjacency_list):
+            self.add_vertex(v2)
         self.adjacency_list.get(v1)[v2] = weight
 
     def edit_edge(self, v1: str, v2: str, weight: int) -> tuple[str, int] | None:
         """
-        Edits an edge between two vertexes
+        Edits an edge from vertex 1 to vertex 2
 
         Parameters
         ----------
@@ -105,7 +109,7 @@ class Graph:
 
     def delete_edge(self, v1: str, v2: str) -> tuple[str, int] | None:
         """
-        Deletes an edge between two vertexes
+        Deletes an edge from vertex 1 to vertex 2
 
         Parameters
         ----------
