@@ -3,6 +3,14 @@ from tkinter import filedialog
 from src.graph import Graph
 
 def create_graph() -> Graph:
+    """
+    Creates a graph from a given file
+
+    Returns
+    -------
+    graph : Graph
+        Graph Data Structure
+    """
     root = tk.Tk()
     root.withdraw()
     graph = Graph()
