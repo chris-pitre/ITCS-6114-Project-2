@@ -6,9 +6,13 @@ class Graph:
     ----------
     adjacency_list : dict
         A dictionary of all vertexes and edges in the list
+    source_node : str
+        Source node for the graph
     """
     def __init__(self) -> None:
         self.adjacency_list = {}
+        self.source_node = None
+        self.directed = False
 
     def clear(self) -> dict:
         """
@@ -75,12 +79,12 @@ class Graph:
         EdgeAlreadyExistsException
             Edge already exists in graph
         """
-        if(self.adjacency_list.get(v1).get(v2) != None):
-            raise(EdgeAlreadyExistsException)
         if(v1 not in self.adjacency_list):
             self.add_vertex(v1)
         if(v2 not in self.adjacency_list):
             self.add_vertex(v2)
+        if(self.adjacency_list.get(v1).get(v2) != None):
+            raise(EdgeAlreadyExistsException)
         self.adjacency_list.get(v1)[v2] = weight
 
     def edit_edge(self, v1: str, v2: str, weight: int) -> tuple[str, int] | None:
@@ -132,7 +136,7 @@ class Graph:
 
     def to_string(self) -> str:
         return str(self.adjacency_list)
-    
+
 class VertexAlreadyExistsException(Exception):
     """
     Raised when add_vertex() is called with an already existing vertex
