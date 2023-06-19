@@ -34,7 +34,7 @@ class Graph:
         Parameters
         ----------
         vertex : str
-            Vertex to be deleted
+            Vertex to be added
 
         Raises
         ------
