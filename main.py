@@ -3,6 +3,23 @@ from tkinter import filedialog
 from src.graph import Graph
 from src.file_to_graph import create_graph
 
+def make_set(vertexes: list) -> list:
+    """
+    Makes a set from a list of given vertexes
+
+    Parameters
+    ----------
+    vertexes : list
+        List of vertexes
+    
+    Returns
+    -------
+    set_list : list
+        List of sets of vertexes
+    """
+    set_list = [set(vertex) for vertex in vertexes]
+    return set_list
+
 def shortest(graph, start):
     distances = {node: float('inf') for node in graph}
     distances[start] = 0
@@ -32,35 +49,50 @@ def shortest(graph, start):
 graph = create_graph()
 test = graph.adjacency_list["A"]
 print (test)
-#All the stuff below this is currently the manual input stuff, I'm gonna try to figure out how to just use the read info shit
-# Read the graph from input
-n, m, _ = input().split()
-n, m = int(n), int(m)
-graph = {chr(ord('A') + i): {} for i in range(n)}
+test2 = graph.adjacency_list["B"]
+print (test2)
+test3 = graph.adjacency_list["C"]
+print (test3)
+vertexes = make_set(graph.adjacency_list.keys())
 
-for _ in range(m):
-    u, v, w = input().split()
-    graph[u][v] = int(w)
 
-start_node = input().strip()
+class Graph:
+    def __init__(self, directed=False):
+        self.graph = defaultdict(list)
+        self.directed = directed
 
-# Print the graph
-print("Graph:")
-for node, neighbors in graph.items():
-    print(node + ":")
-    for neighbor, weight in neighbors.items():
-        print("  ->", neighbor + ":", weight)
+    def addEdge(self, frm, to, weight):
+        self.graph[frm].append([to, weight])
 
-# Apply algorithm
-distances, shortest_paths = shortest(graph, start_node)
-print(distances)
-print(shortest_paths)
+        if self.directed is False:
+            self.graph[to].append([frm, weight])
+        elif self.directed is True:
+            self.graph[to] = self.graph[to]
 
-# Print the results
-print("\nShortest distances from node", start_node + ":")
-for node, distance in distances.items():
-    print("Node:", node, "- Distance:", distance)
+    def find_min(self, dist, visited):
+        minimum = float('inf')
+        index = -1
+        for v in self.graph.keys():
+            if visited[v] is False and dist[v] < minimum:
+                minimum = dist[v]
+                index = v
 
-print("\nShortest paths from node", start_node + ":")
-for node, path in shortest_paths.items():
-    print("Node:", node, "- Path:", [node] + list(shortest_paths[node])[::-1])    
+        return index
+    
+def dikstra(graph, src):
+    visited = {i: False for i in graph}
+    dist = {i: float('inf') for i in graph}
+    parent = {i: None for i in graph}
+
+    dist[src] = 0
+
+    # find shortest path for all vertices
+    for i in range(len(graph) - 1):
+        u = find_min(dist, visited, graph)
+        visited[u] = True
+        for v, w in graph[u]:
+
+            if visited[v] is False and dist[u] + w < dist[v]:
+                dist[v] = dist[u] + w
+                parent[v] = u
+    return parent, dist  
