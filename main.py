@@ -3,8 +3,7 @@ from tkinter import filedialog
 from src.graph import Graph
 from src.file_to_graph import create_graph
 
-
-def dijkstra(graph, start):
+def shortest(graph, start):
     distances = {node: float('inf') for node in graph}
     distances[start] = 0
 
@@ -31,7 +30,9 @@ def dijkstra(graph, start):
     return distances, shortest_paths
 
 graph = create_graph()
-
+test = graph.adjacency_list["A"]
+print (test)
+#All the stuff below this is currently the manual input stuff, I'm gonna try to figure out how to just use the read info shit
 # Read the graph from input
 n, m, _ = input().split()
 n, m = int(n), int(m)
@@ -50,8 +51,10 @@ for node, neighbors in graph.items():
     for neighbor, weight in neighbors.items():
         print("  ->", neighbor + ":", weight)
 
-# Apply Dijkstra's algorithm
-distances, shortest_paths = dijkstra(graph, start_node)
+# Apply algorithm
+distances, shortest_paths = shortest(graph, start_node)
+print(distances)
+print(shortest_paths)
 
 # Print the results
 print("\nShortest distances from node", start_node + ":")
