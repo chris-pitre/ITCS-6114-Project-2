@@ -77,7 +77,7 @@ def get_all_edges(graph: Graph) -> list:
     edge_list.sort(key=lambda item: item[2])
     return edge_list
 
-def kruskal(graph: Graph) -> Graph:
+def kruskal(graph: Graph) -> tuple:
     """
     Uses Kruskal's Algorithm to return a Minimum Spanning Tree
 
@@ -94,6 +94,7 @@ def kruskal(graph: Graph) -> Graph:
     mst = Graph()
     vertexes = make_set(graph.adjacency_list.keys())
     edges = get_all_edges(graph)
+    total_cost = 0
     for edge in edges:
         print(edge)
         print(vertexes)
@@ -102,9 +103,11 @@ def kruskal(graph: Graph) -> Graph:
         if find(vertexes, edge[0]).isdisjoint(find(vertexes, edge[1])):
             mst.add_edge(edge[0], edge[1], edge[2])
             union(vertexes, edge[0], edge[1])
-    return mst
+            total_cost += int(edge[2])
+    return mst, total_cost
 
 if __name__ == "__main__":
     graph = create_graph()
-    mst = kruskal(graph)
-    print(mst.to_string())
+    mst, cost = kruskal(graph)
+    print(f"Minimum Spanning Tree: {mst.to_string()}")
+    print(f"Total Cost: {cost}")
