@@ -1,4 +1,5 @@
 from src.graph import Graph
+from src.file_to_graph import create_graph
 
 def make_set(vertexes: list) -> list:
     """
@@ -102,3 +103,8 @@ def kruskal(graph: Graph) -> Graph:
             mst.add_edge(edge[0], edge[1], edge[2])
             union(vertexes, edge[0], edge[1])
     return mst
+
+if __name__ == "__main__":
+    graph = create_graph()
+    mst = kruskal(graph)
+    print(mst.to_string())
